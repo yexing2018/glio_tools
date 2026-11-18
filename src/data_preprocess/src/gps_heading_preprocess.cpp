@@ -246,27 +246,27 @@ private:
     if (!output_frame_id_.empty()) {
       output.header.frame_id = output_frame_id_;
     }
-    output.heading_stamp = heading->header.stamp;
-    output.gps_stamp = gps->header.stamp;
-    output.w = w;
-    output.x = x;
-    output.y = y;
-    output.z = z;
-    output.roll = roll;
-    output.yaw = yaw;
-    output.pitch = pitch;
-    output.latitude = gps->latitude;
-    output.longitude = gps->longitude;
-    output.altitude = gps->altitude;
-    output.utm_zone = zone;
-    output.utm_band = utm_band(gps->latitude);
-    output.utm_north = north;
-    output.utm_easting = easting;
-    output.utm_northing = northing;
-    output.variance_x = gps->position_covariance[0];
-    output.variance_y = gps->position_covariance[4];
-    output.variance_z = gps->position_covariance[8];
-    output.position_covariance_type = gps->position_covariance_type;
+    output.heading.stamp = heading->header.stamp;
+    output.heading.w = w;
+    output.heading.x = x;
+    output.heading.y = y;
+    output.heading.z = z;
+    output.heading.roll = roll;
+    output.heading.yaw = yaw;
+    output.heading.pitch = pitch;
+    output.gps.stamp = gps->header.stamp;
+    output.gps.latitude = gps->latitude;
+    output.gps.longitude = gps->longitude;
+    output.gps.altitude = gps->altitude;
+    output.gps.variance_x = gps->position_covariance[0];
+    output.gps.variance_y = gps->position_covariance[4];
+    output.gps.variance_z = gps->position_covariance[8];
+    output.gps.position_covariance_type = gps->position_covariance_type;
+    output.utm.zone = zone;
+    output.utm.band = utm_band(gps->latitude);
+    output.utm.north = north;
+    output.utm.easting = easting;
+    output.utm.northing = northing;
     output.heading_gps_time_offset = static_cast<double>(
       stamp_nanoseconds(heading->header.stamp) - stamp_nanoseconds(gps->header.stamp)) * 1e-9;
     publisher_->publish(output);

@@ -30,6 +30,9 @@ if(NOT GEOGRAPHICLIB_INCLUDE_DIR OR NOT GEOGRAPHICLIB_LIBRARY)
 endif()
 
 rosidl_generate_interfaces(${PROJECT_NAME}
+  "msg/Heading.msg"
+  "msg/Gps.msg"
+  "msg/Utm.msg"
   "msg/GpsHeadingData.msg"
   DEPENDENCIES builtin_interfaces std_msgs
 )

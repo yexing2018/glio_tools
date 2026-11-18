@@ -1,0 +1,8 @@
+builtin_interfaces/Time stamp
+float64 latitude
+float64 longitude
+float64 altitude
+float64 variance_x
+float64 variance_y
+float64 variance_z
+uint8 position_covariance_type
