@@ -219,15 +219,19 @@ private:
 
     const double sin_roll_cos_pitch = 2.0 * (w * x + y * z);
     const double cos_roll_cos_pitch = 1.0 - 2.0 * (x * x + y * y);
-    const double roll = std::atan2(sin_roll_cos_pitch, cos_roll_cos_pitch);
+    const double roll_rad = std::atan2(sin_roll_cos_pitch, cos_roll_cos_pitch);
 
     const double sin_pitch = 2.0 * (w * y - z * x);
-    const double pitch = std::abs(sin_pitch) >= 1.0 ?
+    const double pitch_rad = std::abs(sin_pitch) >= 1.0 ?
       std::copysign(M_PI / 2.0, sin_pitch) : std::asin(sin_pitch);
 
     const double sin_yaw_cos_pitch = 2.0 * (w * z + x * y);
     const double cos_yaw_cos_pitch = 1.0 - 2.0 * (y * y + z * z);
-    const double yaw = std::atan2(sin_yaw_cos_pitch, cos_yaw_cos_pitch);
+    const double yaw_rad = std::atan2(sin_yaw_cos_pitch, cos_yaw_cos_pitch);
+
+    roll_deg_ = roll_rad * rad_to_deg_;
+    yaw_deg_ = yaw_rad * rad_to_deg_;
+    pitch_deg_ = pitch_rad * rad_to_deg_;
 
     int zone = 0;
     bool north = true;
@@ -251,9 +255,9 @@ private:
     output.heading.x = x;
     output.heading.y = y;
     output.heading.z = z;
-    output.heading.roll = roll;
-    output.heading.yaw = yaw;
-    output.heading.pitch = pitch;
+    output.heading.roll_deg = roll_deg_;
+    output.heading.yaw_deg = yaw_deg_;
+    output.heading.pitch_deg = pitch_deg_;
     output.gps.stamp = gps->header.stamp;
     output.gps.latitude = gps->latitude;
     output.gps.longitude = gps->longitude;
@@ -279,6 +283,10 @@ private:
   std::size_t queue_size_{200};
   bool require_valid_fix_{true};
   std::string output_frame_id_{"utm"};
+  const double rad_to_deg_{180.0 / M_PI};
+  double roll_deg_{0.0};
+  double yaw_deg_{0.0};
+  double pitch_deg_{0.0};
 
   rclcpp::Subscription<HeadingInput>::SharedPtr heading_subscription_;
   rclcpp::Subscription<NavSatFix>::SharedPtr gps_subscription_;
